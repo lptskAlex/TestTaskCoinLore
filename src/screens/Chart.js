@@ -5,16 +5,17 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import styled from 'styled-components';
 
 import {useCoin} from '../queries/useCoin';
+import {sizes} from '../constants';
 
 const Title = styled.Text`
-  font-size: 32px;
+  font-size: ${sizes.XL}px;
   font-weight: bold;
 `;
 
 const ChartContainer = styled.View`
   height: 200px;
   flex-direction: row;
-  margin-horizontal: 8px;
+  margin-horizontal: ${sizes.M}px;
 `;
 
 export const Chart = ({route}) => {

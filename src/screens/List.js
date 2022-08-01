@@ -7,17 +7,18 @@ import styled from 'styled-components';
 
 import {UserContext} from '../../App';
 import {useCoins} from '../queries/useCoins';
+import {sizes} from '../constants';
 
 const Container = styled(SafeAreaView)`
   flex: 1;
   align-items: center;
-  margin: 10px;
+  margin: ${sizes.M}px;
 `;
 
 const Input = styled.TextInput`
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
+    border-radius: ${sizes.S}px;
+    padding: ${sizes.M}px;
+    margin-top: ${sizes.M}px;
     width: 200px;
     align-items: center;
     justify-content: center;
@@ -32,15 +33,15 @@ const Input = styled.TextInput`
 
 const Button = styled.TouchableOpacity`
     background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
+    border-radius: ${sizes.S}px;
+    padding: ${sizes.M}px;
+    margin-top: ${sizes.M}px;
     width: 200px;
     align-items: center;
     justify-content: center;
     elevation: 5;
     shadow-color: #000;
-    shadow-offset: {width: 0, height: 2};
+    shadow-offset: {width: 0, height: ${sizes.XS}};
     shadow-opacity: 0.8;
     shadow-radius: 2;
     border-width: 1px;
@@ -50,13 +51,13 @@ const Button = styled.TouchableOpacity`
 const ItemContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding: 10px 20px;
-    margin-top: 10px;
+  padding: ${sizes.M}px ${sizes.L}px;
+    margin-top: ${sizes.M}px;
     align-items: center;
     justify-content: center;
     elevation: 5;
     shadow-color: #000;
-    shadow-offset: {width: 0, height: 2};
+    shadow-offset: {width: 0, height: ${sizes.XS}};
     shadow-opacity: 0.8;
     shadow-radius: 2;
     border-width: 1px;

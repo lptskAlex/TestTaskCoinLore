@@ -4,6 +4,8 @@ import {SafeAreaView, Text, TextInput} from 'react-native';
 import styled from 'styled-components';
 import {UserContext} from '../../App';
 
+import {sizes} from '../constants';
+
 const Container = styled(SafeAreaView)`
   flex: 1;
   align-items: center;
@@ -12,9 +14,9 @@ const Container = styled(SafeAreaView)`
 
 const Button = styled.TouchableOpacity`
     background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
+    border-radius: ${sizes.S}px;
+    padding: ${sizes.M}px;
+    margin-top: ${sizes.M}px;
     width: 200px;
     align-items: center;
     justify-content: center;
@@ -28,9 +30,9 @@ const Button = styled.TouchableOpacity`
 `;
 
 const Input = styled.TextInput`
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
+    border-radius: ${sizes.S}px;
+    padding: ${sizes.M}px;
+    margin-top: ${sizes.M}px;
     width: 200px;
     align-items: center;
     justify-content: center;
