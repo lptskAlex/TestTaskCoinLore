@@ -139,10 +139,10 @@ export const List = () => {
             style={{width: '100%'}}
             data={
               minChangeFilter
-                ? (items || coinsData.data).filter(
+                ? (items || coinsData?.data).filter(
                     el => el.percent_change_24h >= minChangeFilter,
                   )
-                : items || coinsData.data
+                : items || coinsData?.data
             }
             renderItem={({item}) => (
               <Item noInternet={noInternet} item={item} />

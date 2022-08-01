@@ -80,34 +80,36 @@ export const Chart = ({route}) => {
     <View>
       <Title>{coinData[0]?.name}</Title>
       {!noInternet && <Text>Till next price fetch: {timer}</Text>}
-      <ChartContainer>
-        <YAxis
-          data={items.map(item => +item[0].price_usd)}
-          contentInset={{top: 20, bottom: 20}}
-          svg={{
-            fill: 'grey',
-            fontSize: 10,
-          }}
-          numberOfTicks={5}
-        />
-        <LineChart
-          style={{flex: 1, marginLeft: 16}}
-          data={items.map(item => +item[0].price_usd)}
-          svg={{stroke: 'rgb(134, 65, 244)'}}
-          contentInset={{top: 20, bottom: 20}}>
-          <XAxis
-            data={items.map(item => +item[0].time)}
-            svg={{fontSize: 12, fill: 'grey', translateX: 12}}
-            formatLabel={(_, index) => {
-              return `${items[index].time.getHours()}:${items[
-                index
-              ].time.getMinutes()}`;
+      {items && (
+        <ChartContainer>
+          <YAxis
+            data={items.map(item => +item[0].price_usd)}
+            contentInset={{top: 20, bottom: 20}}
+            svg={{
+              fill: 'grey',
+              fontSize: 10,
             }}
+            numberOfTicks={5}
           />
+          <LineChart
+            style={{flex: 1, marginLeft: 16}}
+            data={items.map(item => +item[0].price_usd)}
+            svg={{stroke: 'rgb(134, 65, 244)'}}
+            contentInset={{top: 20, bottom: 20}}>
+            <XAxis
+              data={items.map(item => +item[0].time)}
+              svg={{fontSize: 12, fill: 'grey', translateX: 12}}
+              formatLabel={(_, index) => {
+                return `${items[index].time.getHours()}:${items[
+                  index
+                ].time.getMinutes()}`;
+              }}
+            />
 
-          <Grid />
-        </LineChart>
-      </ChartContainer>
+            <Grid />
+          </LineChart>
+        </ChartContainer>
+      )}
     </View>
   );
 };
