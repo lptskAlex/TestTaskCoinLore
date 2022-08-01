@@ -79,7 +79,7 @@ export const Chart = ({route}) => {
 
   return (
     <View>
-      <Title>{coinData[0]?.name}</Title>
+      {coinData && <Title>{coinData[0]?.name}</Title>}
       {!noInternet && <Text>Till next price fetch: {timer}</Text>}
       {items && (
         <ChartContainer>
