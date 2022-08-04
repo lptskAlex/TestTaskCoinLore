@@ -15,76 +15,93 @@ const Title = styled.Text`
 const ChartContainer = styled.View`
   height: 200px;
   flex-direction: row;
-  margin-horizontal: ${sizes.M}px;
 `;
 
 export const Chart = ({route}) => {
-  const {id} = route.params;
+  const {currencyIndex} = route.params;
   const [noInternet, setNoInternet] = useState(false);
-  const {data: coinData, refetch} = useCoin(id, () => setNoInternet(true));
+  const {
+    data: coinData,
+    refetch,
+    isFetching,
+  } = useCoin(currencyIndex, () => setNoInternet(false));
 
   const netInfo = useNetInfo();
-
-  useEffect(() => {
-    if (netInfo.isConnected === false) {
-      setNoInternet(true);
-    }
-  }, [netInfo]);
 
   const [items, setItems] = useState([]);
   const [refetchCount, setRefetchCount] = useState(0);
   const [intervalId, setIntervalId] = useState();
   const [timer, setTimer] = useState(30);
   const [timerId, setTimerId] = useState();
+  const [shouldRefetch, setShouldRefetch] = useState(false);
 
   useEffect(() => {
-    startTimer();
-    const fetchIntervalId = setInterval(() => {
-      refetch();
-      startTimer();
-      setRefetchCount(refetchCount + 1);
-    }, 30000);
-    setIntervalId(fetchIntervalId);
-
-    return () => {
-      clearInterval(id);
-      clearInterval(timerId);
-    };
-  }, []);
+    if (netInfo.isConnected === false) {
+      setNoInternet(true);
+    } else {
+      setNoInternet(false);
+    }
+  }, [netInfo]);
 
   const startTimer = () => {
+    setRefetchCount(prev => prev + 1);
     setTimer(30);
     setTimerId(
       setInterval(() => {
         setTimer(prev => prev - 1);
       }, 1000),
     );
+    setIntervalId(
+      setInterval(() => {
+        setShouldRefetch(true);
+        setTimer(30);
+      }, 30000),
+    );
+  };
+
+  const stopTimer = () => {
+    clearInterval(timerId);
+    clearInterval(intervalId);
+  };
+
+  const addItem = item => {
+    setItems([
+      ...items,
+      {
+        ...coinData,
+        time: new Date(),
+      },
+    ]);
   };
 
   useEffect(() => {
-    if (coinData) {
-      setItems([
-        ...items,
-        {
-          ...coinData,
-          time: new Date(),
-        },
-      ]);
-      if (refetchCount === 5) {
-        clearInterval(intervalId);
-        clearInterval(timerId);
-      }
+    if (!shouldRefetch && refetchCount < 5) {
+      startTimer();
     }
-  }, [coinData]);
+    if (shouldRefetch && refetchCount < 5) {
+      refetch();
+      setShouldRefetch(false);
+      stopTimer();
+    }
+    if (refetchCount >= 5) {
+      stopTimer();
+    }
+  }, [shouldRefetch]);
+
+  useEffect(() => {
+    !isFetching && addItem(coinData);
+  }, [isFetching]);
 
   return (
     <View>
-      {coinData && <Title>{coinData[0]?.name}</Title>}
-      {!noInternet && <Text>Till next price fetch: {timer}</Text>}
+      <Title>{coinData?.name}</Title>
+      {!noInternet && refetchCount < 5 && (
+        <Text>Till next price refetch: {timer}</Text>
+      )}
       {items && (
         <ChartContainer>
           <YAxis
-            data={items.map(item => +item[0].price_usd)}
+            data={items.map(item => +item.price_usd)}
             contentInset={{top: 20, bottom: 20}}
             svg={{
               fill: 'grey',
@@ -94,12 +111,13 @@ export const Chart = ({route}) => {
           />
           <LineChart
             style={{flex: 1, marginLeft: 16}}
-            data={items.map(item => +item[0].price_usd)}
+            data={items.map(item => +item.price_usd)}
             svg={{stroke: 'rgb(134, 65, 244)'}}
             contentInset={{top: 20, bottom: 20}}>
             <XAxis
-              data={items.map(item => +item[0].time)}
-              svg={{fontSize: 12, fill: 'grey', translateX: 12}}
+              data={items.map(item => +item.time)}
+              svg={{fontSize: 12, fill: 'grey'}}
+              contentInset={{top: 20, bottom: 20, left: 14, right: 14}}
               formatLabel={(_, index) => {
                 return `${items[index].time.getHours()}:${items[
                   index

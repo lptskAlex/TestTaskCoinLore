@@ -71,11 +71,11 @@ const ItemDetail = styled.Text`
   min-width: 40%;
 `;
 
-const Item = ({item, noInternet}) => {
+const Item = ({item, noInternet, index}) => {
   const navigation = useNavigation();
   return (
     <ItemContainer
-      onPress={() => navigation.navigate('Chart', {id: item.id})}
+      onPress={() => navigation.navigate('Chart', {currencyIndex: index})}
       disabled={noInternet}>
       <ItemDetail>{item.name}</ItemDetail>
       <ItemDetail>{item.price_usd}$</ItemDetail>
@@ -141,12 +141,12 @@ export const List = () => {
             data={
               minChangeFilter
                 ? (items || coinsData?.data).filter(
-                    el => el.percent_change_24h >= minChangeFilter,
+                    el => +el.percent_change_24h >= +minChangeFilter,
                   )
                 : items || coinsData?.data
             }
-            renderItem={({item}) => (
-              <Item noInternet={noInternet} item={item} />
+            renderItem={({item, index}) => (
+              <Item noInternet={noInternet} item={item} index={index} />
             )}
             keyExtractor={item => item.id}
           />

@@ -1,4 +1,4 @@
-export const getCoinData = id =>
-  fetch(`https://api.coinlore.net/api/ticker/?id=${id}`).then(res =>
-    res.json(),
+export const getCoinData = index =>
+  fetch(`https://api.coinlore.net/api/tickers/?start=${index}&limit=1`).then(
+    res => res.json().then(result => result.data[0]),
   );
