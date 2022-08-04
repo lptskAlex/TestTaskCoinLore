@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import {useCoin} from '../queries/useCoin';
 import {sizes} from '../constants';
+import {format} from 'date-fns';
 
 const Title = styled.Text`
   font-size: ${sizes.XL}px;
@@ -117,11 +118,9 @@ export const Chart = ({route}) => {
             <XAxis
               data={items.map(item => +item.time)}
               svg={{fontSize: 12, fill: 'grey'}}
-              contentInset={{top: 20, bottom: 20, left: 14, right: 14}}
+              contentInset={{top: 20, bottom: 20, left: 24, right: 14}}
               formatLabel={(_, index) => {
-                return `${items[index].time.getHours()}:${items[
-                  index
-                ].time.getMinutes()}`;
+                return format(items[index].time, "hh:mm aaaaa'm'");
               }}
             />
 
