@@ -118,7 +118,7 @@ export const Chart = ({route}) => {
             <XAxis
               data={items.map(item => +item.time)}
               svg={{fontSize: 12, fill: 'grey'}}
-              contentInset={{top: 20, bottom: 20, left: 24, right: 14}}
+              contentInset={{top: 20, bottom: 20, left: 14, right: 14}}
               formatLabel={(_, index) => {
                 return format(items[index].time, "hh:mm aaaaa'm'");
               }}
